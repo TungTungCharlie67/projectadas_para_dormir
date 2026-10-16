@@ -24,6 +24,15 @@ def onetimereader():
         holder=Tareas.Tareas(row[0], int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(row[5]))
         lista_de_tareas.append((holder, int(row[6])))
 
+def tarea_saver():
+    with open(file_path, "w", newline="") as file:
+        print("Started saving")
+        writer = csv.writer(file)
+        for tarea in lista_de_tareas:
+            objeto = tarea[0]
+            valor = tarea[1]
+            writer.writerow(objeto.name, objeto.priority, objeto.complexity, objeto.day, objeto.month, objeto.year,valor)
+
 hoy = date.today()
 
 print(hoy)
@@ -74,6 +83,8 @@ marco_calendario.pack(side="left", fill="y")
 lista = tk.Listbox(marco_contenido, width=30, height=12)
 lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
+
+
 root = tk.Tk()
 root.title('Calendario interactivo')
 
@@ -87,4 +98,5 @@ texto = entrada.get()
 
 tk.Button(root, text='Seleccionar Fecha', command=tarea_setter).pack(pady=20)
 
+onetimereader()
 root.mainloop()
