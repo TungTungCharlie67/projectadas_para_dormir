@@ -55,6 +55,7 @@ def agregar_texto(event=None):
 
 root = tk.Tk()
 root.title('TaskNot3')
+
 marco_entrada = tk.Frame(root)
 marco_entrada.pack(fill="x", padx=10, pady=10)
 
@@ -73,8 +74,16 @@ marco_calendario.pack(side="left", fill="y")
 lista = tk.Listbox(marco_contenido, width=30, height=12)
 lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
+root = tk.Tk()
+root.title('Calendario interactivo')
+
 cal = Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 cal.pack(pady=20)
+
+entrada = tk.Entry(root)
+entrada.pack(pady=10)
+
+texto = entrada.get()
 
 tk.Button(root, text='Seleccionar Fecha', command=tarea_setter).pack(pady=20)
 
