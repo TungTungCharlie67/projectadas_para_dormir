@@ -1,11 +1,7 @@
 import array as arr
-name
-priority
-due_date 
-complexity
 
 class Tareas:
-    def __init__(name, priority, complexity, day, month, year):
+    def __init__(self, name, priority, complexity, day, month, year):
         self.name = name
         self.priority = priority
         self.complexity =  complexity
