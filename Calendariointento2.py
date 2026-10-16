@@ -3,9 +3,12 @@ from tkcalendar import Calendar
 from datetime import date
 import Tareas
 import os
+from tkinter import messagebox
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(script_dir, "saver.csv")
+
+
 
 def onetimereader():
     try:
@@ -43,9 +46,32 @@ def tarea_setter(name, priority, complexity):
     lista_de_tareas.sort(key=lambda x: x[1])
     print(lista_de_tareas)
 
+def agregar_texto(event=None):
+    texto = entrada.get().strip()
+    if texto:
+        lista.insert(tk.END, texto)
+        entrada.delete(0, tk.END)
+
 
 root = tk.Tk()
-root.title('Calendario interactivo')
+root.title('TaskNot3')
+marco_entrada = tk.Frame(root)
+marco_entrada.pack(fill="x", padx=10, pady=10)
+
+entrada = tk.Entry(marco_entrada)
+entrada.pack(side="left", fill="x", expand=True)
+entrada.bind("<Return>", agregar_texto)
+
+tk.Button(marco_entrada, text="Agregar", command=agregar_texto).pack(side="right", padx=(8, 0))
+
+marco_contenido = tk.Frame(root)
+marco_contenido.pack(fill="both", expand=True)
+
+marco_calendario = tk.Frame(marco_contenido)
+marco_calendario.pack(side="left", fill="y")
+
+lista = tk.Listbox(marco_contenido, width=30, height=12)
+lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
 cal = Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 cal.pack(pady=20)
