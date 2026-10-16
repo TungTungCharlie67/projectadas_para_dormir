@@ -17,9 +17,9 @@ def onetimereader():
     with open(file_path, "r") as file:
         content = file.read()
     print("Info loaded")
-    
-
-
+    for row in content:
+        holder=Tareas.Tareas(row[0], int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(row[5]))
+        lista_de_tareas.append((holder, int(row[6])))
 
 hoy = date.today()
 
