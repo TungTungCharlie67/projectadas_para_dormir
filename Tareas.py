@@ -1,5 +1,3 @@
-import array as arr
-
 class Tareas:
     def __init__(self, name, priority, complexity, day, month, year):
         self.name = name

@@ -8,8 +8,6 @@ from tkinter import messagebox
 script_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(script_dir, "saver.csv")
 
-
-
 def onetimereader():
     try:
         with open(file_path, "x") as file:
@@ -43,7 +41,8 @@ def print_date():
     print(cal.selection_get())
 
 def tarea_setter(priority, complexity):
-    texto = Tareas.Tareas(
+    nombre_de_tarea = texto
+    nombre_de_tarea = Tareas.Tareas(
         texto, 
         priority, 
         complexity, 
@@ -51,7 +50,7 @@ def tarea_setter(priority, complexity):
         cal.selection_get().month, 
         cal.selection_get().year
         )
-    lista_de_tareas.append(("Prueba", name.complexity*name.priority*10/((hoy.day+hoy.month*100+hoy.year+10000)-name.due_date+0.1) ))
+    lista_de_tareas.append(("Prueba", nombre_de_tarea.complexity*nombre_de_tarea.priority*10/((hoy.day+hoy.month*100+hoy.year+10000)-nombre_de_tarea.due_date+0.1) ))
     lista_de_tareas.sort(key=lambda x: x[1])
     print(lista_de_tareas)
 
@@ -60,7 +59,6 @@ def agregar_texto(event=None):
     if texto:
         lista.insert(tk.END, texto)
         entrada.delete(0, tk.END)
-
 
 root = tk.Tk()
 root.title('TaskNot3')
