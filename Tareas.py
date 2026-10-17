@@ -3,4 +3,7 @@ class Tareas:
         self.name = name
         self.priority = priority
         self.complexity =  complexity
-        self.due_date = day+month*100+year+10000
+        self.day= day
+        self.month = month
+        self.year = year
+        self.due_date = day+month*100+year*10000
