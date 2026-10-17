@@ -24,15 +24,6 @@ def onetimereader():
         holder=Tareas.Tareas(row[0], int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(row[5]))
         lista_de_tareas.append((holder, int(row[6])))
 
-def tarea_saver():
-    with open(file_path, "w", newline="") as file:
-        print("Started saving")
-        writer = csv.writer(file)
-        for tarea in lista_de_tareas:
-            objeto = tarea[0]
-            valor = tarea[1]
-            writer.writerow(objeto.name, objeto.priority, objeto.complexity, objeto.day, objeto.month, objeto.year,valor)
-
 hoy = date.today()
 
 print(hoy)
@@ -42,16 +33,16 @@ lista_de_tareas = []
 def print_date():
     print(cal.selection_get())
 
-def tarea_setter(name, priority, complexity):
-    name = Tareas.Tareas(
-        name, 
+def tarea_setter( priority, complexity):
+    texto = Tareas.Tareas(
+        texto, 
         priority, 
         complexity, 
         cal.selection_get().day, 
         cal.selection_get().month, 
         cal.selection_get().year
         )
-    lista_de_tareas.append(("Prueba", name.complexity*name.priority*10/((hoy.day+hoy.month*100+hoy.year+10000)-name.due_date+0.1) ))
+    lista_de_tareas.append(("Prueba", texto.complexity*texto.priority*10/((hoy.day+hoy.month*100+hoy.year+10000)-texto.due_date+0.1) ))
     lista_de_tareas.sort(key=lambda x: x[1])
     print(lista_de_tareas)
 
@@ -64,9 +55,31 @@ def agregar_texto(event=None):
 
 root = tk.Tk()
 root.title('TaskNot3')
-
 marco_entrada = tk.Frame(root)
 marco_entrada.pack(fill="x", padx=10, pady=10)
+
+marco_selectores = tk.Frame(root)
+marco_selectores.pack(fill="x", padx=10)
+
+priority = tk.Scale(
+    marco_selectores,
+    from_=1,
+    to=5,
+    orient=tk.HORIZONTAL,
+    resolution=1,
+    label="priority"
+)
+priority.pack(fill="x")
+
+complexity = tk.Scale(
+    marco_selectores,
+    from_=1,
+    to=5,
+    orient=tk.HORIZONTAL,
+    resolution=1,
+    label="complexity"
+)
+complexity.pack(fill="x")
 
 entrada = tk.Entry(marco_entrada)
 entrada.pack(side="left", fill="x", expand=True)
@@ -85,18 +98,13 @@ lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
 
 
-root = tk.Tk()
-root.title('Calendario interactivo')
-
 cal = Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 cal.pack(pady=20)
 
-entrada = tk.Entry(root)
-entrada.pack(pady=10)
+
 
 texto = entrada.get()
 
 tk.Button(root, text='Seleccionar Fecha', command=tarea_setter).pack(pady=20)
 
-onetimereader()
 root.mainloop()
