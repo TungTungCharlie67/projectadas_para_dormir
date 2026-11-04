@@ -73,7 +73,7 @@ def tarea_setter(nombre, priority, complexity, due_date):
         print(tarea[0].name, tarea[1])
 
 def prioratizer(priority, complexity, due_date):
-    return priority*complexity*due_date/hoy
+    return priority*complexity
 
 def actualizar_lista():
     lista.delete(0, tk.END)
@@ -119,8 +119,9 @@ complexity.pack(fill="x")
 entrada = tk.Entry(marco_entrada)
 entrada.pack(side="left", fill="x", expand=True)
 entrada.bind("<Return>", agregar_texto)
+cal = tkcalendar.Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 
-tk.Button(marco_entrada, text="Agregar", command=tarea_setter(entrada.get(), priority.get(), complexity.get(), day)).pack(side="right", padx=(8, 0))
+tk.Button(marco_entrada, text="Agregar", command=lambda: tarea_setter(entrada.get(), priority.get(), complexity.get(), cal.selection_get())).pack(side="right", padx=(8, 0))
 
 marco_contenido = tk.Frame(root)
 marco_contenido.pack(fill="both", expand=True)
@@ -131,7 +132,6 @@ marco_calendario.pack(side="left", fill="y")
 lista = tk.Listbox(marco_contenido, width=30, height=12)
 lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
-cal = tkcalendar.Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 cal.pack(pady=20)
 
 tk.Button(root, text='Salvar', command=tarea_saver).pack(pady=20)
