@@ -27,8 +27,8 @@ def onetimereader():
                 row[0], 
                 int(row[1]), 
                 int(row[2]), 
-                int(row[3]))
-                lista_de_tareas.append((holder, float(row[5])))
+                row[3])
+                lista_de_tareas.append((holder, float(row[4])))
     print("Info loaded")
  #   if len(content)==0:        print("no content")        return
     
@@ -132,9 +132,18 @@ marco_calendario.pack(side="left", fill="y")
 lista = tk.Listbox(marco_contenido, width=30, height=12)
 lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
+def seleccionar_tarea(event=None):
+    seleccion = lista.curselection()
+    if not seleccion:
+        return
+
+    indice = seleccion[0]
+    tarea = lista_de_tareas[indice]
+
 cal.pack(pady=20)
 
 tk.Button(root, text='Salvar', command=tarea_saver).pack(pady=20)
 
 onetimereader()
+actualizar_lista()
 root.mainloop()
