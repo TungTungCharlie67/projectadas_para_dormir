@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkcalendar import Calendar
+import tkcalendar 
 from datetime import date
 import Tareas
 import os
@@ -27,10 +27,8 @@ def onetimereader():
                 row[0], 
                 int(row[1]), 
                 int(row[2]), 
-                int(row[3]), 
-                int(row[4]), 
-                int(row[5]))
-                lista_de_tareas.append((holder, float(row[6])))
+                int(row[3]))
+                lista_de_tareas.append((holder, float(row[5])))
     print("Info loaded")
  #   if len(content)==0:        print("no content")        return
     
@@ -42,39 +40,40 @@ def tarea_saver():
         for tarea in lista_de_tareas:
             objeto = tarea[0]
             valor = tarea[1]
-            writer.writerow([objeto.name, objeto.priority, objeto.complexity, objeto.day, objeto.month, objeto.year,valor])
+            writer.writerow([objeto.name, objeto.priority, objeto.complexity, objeto.due_date, valor])
 
 lista_de_tareas = []
 
 def print_date():
     print(cal.selection_get())
 
-def tarea_setter():
+def tarea_setter(nombre, priority, complexity, due_date):
     nombre = entrada.get().strip()
 
     if not nombre:
         messagebox.showwarning("Error", "Escribe un nombre")
         return 
     
-    nombre_de_tarea = nombre
     nombre_de_tarea = Tareas.Tareas(
         nombre, 
-        priority.get(), 
-        complexity.get(), 
-        cal.selection_get().day, 
-        cal.selection_get().month, 
-        cal.selection_get().year
+        priority, 
+        complexity, 
+        due_date
         )
-    print("Priority:", nombre_de_tarea.priority)
-    print("Complexity:", nombre_de_tarea.complexity)
-    print("Due date:", nombre_de_tarea.due_date)
-    lista_de_tareas.append((nombre_de_tarea, nombre_de_tarea.complexity*nombre_de_tarea.priority*1000000/(nombre_de_tarea.due_date-(hoy.day+hoy.month*100+hoy.year*10000)+0.1) ))
+    print("Priority:", priority)
+    print("Complexity:", complexity)
+    print("Due date:", due_date)
+    lista_de_tareas.append((nombre_de_tarea, prioratizer(priority, complexity, due_date)))
     lista_de_tareas.sort(key=lambda x: x[1], reverse=True)
     lista.insert(tk.END, nombre)
     entrada.delete(0, tk.END)
     actualizar_lista()
+
     for tarea in lista_de_tareas:
         print(tarea[0].name, tarea[1])
+
+def prioratizer(priority, complexity, due_date):
+    return priority*complexity*due_date/hoy
 
 def actualizar_lista():
     lista.delete(0, tk.END)
@@ -121,7 +120,7 @@ entrada = tk.Entry(marco_entrada)
 entrada.pack(side="left", fill="x", expand=True)
 entrada.bind("<Return>", agregar_texto)
 
-tk.Button(marco_entrada, text="Agregar", command=tarea_setter).pack(side="right", padx=(8, 0))
+tk.Button(marco_entrada, text="Agregar", command=tarea_setter(entrada.get(), priority.get(), complexity.get(), day)).pack(side="right", padx=(8, 0))
 
 marco_contenido = tk.Frame(root)
 marco_contenido.pack(fill="both", expand=True)
@@ -132,7 +131,7 @@ marco_calendario.pack(side="left", fill="y")
 lista = tk.Listbox(marco_contenido, width=30, height=12)
 lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
-cal = Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
+cal = tkcalendar.Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 cal.pack(pady=20)
 
 tk.Button(root, text='Salvar', command=tarea_saver).pack(pady=20)
