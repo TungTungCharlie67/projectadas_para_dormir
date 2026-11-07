@@ -82,10 +82,18 @@ def actualizar_lista():
         lista.insert(tk.END, f"{tarea[0].name} - {tarea[1]:.2f}")
 
 def agregar_texto(event=None):
-    nombre = entrada.get().strip()
-    if nombre:
-        lista.insert(tk.END, nombre)
-        entrada.delete(0, tk.END)
+    tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get())
+#    nombre = entrada.get().strip()
+ #   if nombre:
+  #      lista.insert(tk.END, nombre)
+   #     entrada.delete(0, tk.END)
+
+
+def Checador_para_el_dia(List):
+    if True:
+        for tarea in List:
+                if hoy == tarea[0].due_date:
+                    messagebox.showwarning(tarea[0].name ,"se entrega hoy")
 
 root = tk.Tk()
 root.title('TaskNot3')
@@ -116,12 +124,13 @@ complexity = tk.Scale(
 )
 complexity.pack(fill="x")
 
-entrada = tk.Entry(marco_entrada)
-entrada.pack(side="left", fill="x", expand=True)
-entrada.bind("<Return>", agregar_texto)
 cal = tkcalendar.Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 
-tk.Button(marco_entrada, text="Agregar", command=lambda: tarea_setter(entrada.get(), priority.get(), complexity.get(), cal.selection_get())).pack(side="right", padx=(8, 0))
+entrada = tk.Entry(marco_entrada)
+entrada.pack(side="left", fill="x", expand=True)
+entrada.bind("<Return>", lambda event: tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get()))
+
+tk.Button(marco_entrada, text="Agregar", command=lambda: tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get())).pack(side="right", padx=(8, 0))
 
 marco_contenido = tk.Frame(root)
 marco_contenido.pack(fill="both", expand=True)
@@ -132,13 +141,6 @@ marco_calendario.pack(side="left", fill="y")
 lista = tk.Listbox(marco_contenido, width=30, height=12)
 lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
-def seleccionar_tarea(event=None):
-    seleccion = lista.curselection()
-    if not seleccion:
-        return
-
-    indice = seleccion[0]
-    tarea = lista_de_tareas[indice]
 
 cal.pack(pady=20)
 
@@ -146,4 +148,5 @@ tk.Button(root, text='Salvar', command=tarea_saver).pack(pady=20)
 
 onetimereader()
 actualizar_lista()
+Checador_para_el_dia(lista_de_tareas)
 root.mainloop()
