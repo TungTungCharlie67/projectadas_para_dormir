@@ -82,6 +82,16 @@ def actualizar_lista():
     for tarea in lista_de_tareas:
         lista.insert(tk.END, f"{tarea[0].name} - {tarea[1]:.2f}")
 
+def eliminar_tarea():
+    seleccion = lista.curselection()
+    if not seleccion:
+        messagebox.showwarning("Error67", "Selecciona una tarea para eliminar")
+        return
+
+    del lista_de_tareas[seleccion[0]]
+    actualizar_lista()
+    tarea_saver()
+
 def agregar_texto(event=None):
     nombre = entrada.get().strip()
     if nombre:
@@ -131,6 +141,7 @@ marco_calendario.pack(side="left", fill="y")
 
 lista = tk.Listbox(marco_contenido, width=30, height=12)
 lista.pack(side="right", fill="both", expand=True, padx=10, pady=10)
+tk.Button(marco_contenido, text="Eliminar tarea", command=eliminar_tarea).pack(side="right", padx=5)
 
 cal = Calendar(root, selectmode = 'day', year = hoy.year, month = hoy.month, day= hoy.day)
 cal.pack(pady=20)
@@ -138,4 +149,5 @@ cal.pack(pady=20)
 tk.Button(root, text='Salvar', command=tarea_saver).pack(pady=20)
 
 onetimereader()
+actualizar_lista()
 root.mainloop()
