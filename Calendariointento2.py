@@ -83,17 +83,12 @@ def actualizar_lista():
 
 def agregar_texto(event=None):
     tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get())
-#    nombre = entrada.get().strip()
- #   if nombre:
-  #      lista.insert(tk.END, nombre)
-   #     entrada.delete(0, tk.END)
-
 
 def Checador_para_el_dia(List):
-    if True:
-        for tarea in List:
-                if hoy == tarea[0].due_date:
-                    messagebox.showwarning(tarea[0].name ,"se entrega hoy")
+    for tarea in List:
+            if date.today().isoformat() == tarea[0].due_date:
+                print("se entrega hoy")
+                messagebox.showwarning("Holder i guess", f"{tarea[0].name} se entrega hoy")
 
 root = tk.Tk()
 root.title('TaskNot3')
