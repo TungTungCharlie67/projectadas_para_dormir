@@ -5,6 +5,7 @@ import Tareas
 import os
 import csv
 from tkinter import messagebox
+from datetime import date
 
 hoy = date.today()
 
@@ -85,7 +86,15 @@ def eliminar_tarea():
 
 
 def prioratizer(priority, complexity, due_date):
-    return priority*complexity
+    if isinstance(due_date, str):
+        due_date = datetime.strptime(due_date, "%m/%d/%y").date()
+
+    remaining_dates = (due_date - hoy).days
+
+    if remaining_dates < 0:
+        remaining_dates = -10000
+
+    return priority*40 + complexity*20 - remaining_dates
 
 def actualizar_lista():
     lista.delete(0, tk.END)
@@ -94,13 +103,13 @@ def actualizar_lista():
         lista.insert(tk.END, f"{tarea[0].name} - {tarea[1]:.2f}")
 
 def agregar_texto(event=None):
-    tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get())
+    tarea_setter(entrada.get().strip(), priority.get(), complexity.get(), cal.selection_get())
 
 def Checador_para_el_dia(List):
     for tarea in List:
-        if date.today().isoformat() == tarea[0].due_date:
-            print("se entrega hoy")
-            messagebox.showwarning("Holder i guess", f"{tarea[0].name} se entrega hoy")
+            if date.today().isoformat() == tarea[0].due_date:
+                print("se entrega hoy")
+                messagebox.showwarning("Holder i guess", f"{tarea[0].name} se entrega hoy")
 
 root = tk.Tk()
 root.title('TaskNot3')
@@ -135,9 +144,9 @@ cal = tkcalendar.Calendar(root, selectmode = 'day', year = hoy.year, month = hoy
 
 entrada = tk.Entry(marco_entrada)
 entrada.pack(side="left", fill="x", expand=True)
-entrada.bind("<Return>", lambda event: tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get()))
+entrada.bind("<Return>", lambda event: tarea_setter(entrada.get().strip(), priority.get(), complexity.get(), cal.selection_get()))
 
-tk.Button(marco_entrada, text="Agregar", command=lambda: tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get())).pack(side="right", padx=(8, 0))
+tk.Button(marco_entrada, text="Agregar", command=lambda: tarea_setter(entrada.get().strip(), priority.get(), complexity.get(), cal.selection_get())).pack(side="right", padx=(8, 0))
 
 marco_contenido = tk.Frame(root)
 marco_contenido.pack(fill="both", expand=True)
