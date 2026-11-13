@@ -153,4 +153,5 @@ cal.pack(pady=20)
 tk.Button(root, text='Salvar', command=tarea_saver).pack(pady=20)
 
 onetimereader()
+actualizar_lista()
 root.mainloop()
