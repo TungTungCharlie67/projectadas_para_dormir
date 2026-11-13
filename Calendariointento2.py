@@ -31,7 +31,6 @@ def onetimereader():
                 row[3])
                 lista_de_tareas.append((holder, float(row[4])))
     print("Info loaded")
- #   if len(content)==0:        print("no content")        return
     
 
 def tarea_saver():
@@ -45,8 +44,6 @@ def tarea_saver():
 
 lista_de_tareas = []
 
-def print_date():
-    print(cal.selection_get())
 
 def tarea_setter(nombre, priority, complexity, due_date):
     nombre = entrada.get().strip()
@@ -61,17 +58,12 @@ def tarea_setter(nombre, priority, complexity, due_date):
         complexity, 
         due_date
         )
-    print("Priority:", priority)
-    print("Complexity:", complexity)
-    print("Due date:", due_date)
     lista_de_tareas.append((nombre_de_tarea, prioratizer(priority, complexity, due_date)))
     lista_de_tareas.sort(key=lambda x: x[1], reverse=True)
     lista.insert(tk.END, nombre)
     entrada.delete(0, tk.END)
     actualizar_lista()
 
-    for tarea in lista_de_tareas:
-        print(tarea[0].name, tarea[1])
 
 def eliminar_tarea():
     seleccion = lista.curselection()
@@ -108,7 +100,6 @@ def agregar_texto(event=None):
 def Checador_para_el_dia(List):
     for tarea in List:
             if date.today().isoformat() == tarea[0].due_date:
-                print("se entrega hoy")
                 messagebox.showwarning("Holder i guess", f"{tarea[0].name} se entrega hoy")
 
 root = tk.Tk()
