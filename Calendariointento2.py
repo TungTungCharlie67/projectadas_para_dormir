@@ -72,6 +72,18 @@ def tarea_setter(nombre, priority, complexity, due_date):
     for tarea in lista_de_tareas:
         print(tarea[0].name, tarea[1])
 
+def eliminar_tarea():
+    seleccion = lista.curselection()
+    if not seleccion:
+        messagebox.showwarning("Error67", "Selecciona una tarea para eliminar")
+        return
+
+
+    del lista_de_tareas[seleccion[0]]
+    actualizar_lista()
+    tarea_saver()
+
+
 def prioratizer(priority, complexity, due_date):
     return priority*complexity
 
@@ -81,24 +93,14 @@ def actualizar_lista():
     for tarea in lista_de_tareas:
         lista.insert(tk.END, f"{tarea[0].name} - {tarea[1]:.2f}")
 
-def eliminar_tarea():
-    seleccion = lista.curselection()
-    if not seleccion:
-        messagebox.showwarning("Error67", "Selecciona una tarea para eliminar")
-        return
-
-    del lista_de_tareas[seleccion[0]]
-    actualizar_lista()
-    tarea_saver()
-
 def agregar_texto(event=None):
     tarea_setter(entrada.get().strip, priority.get(), complexity.get(), cal.selection_get())
 
 def Checador_para_el_dia(List):
     for tarea in List:
-            if date.today().isoformat() == tarea[0].due_date:
-                print("se entrega hoy")
-                messagebox.showwarning("Holder i guess", f"{tarea[0].name} se entrega hoy")
+        if date.today().isoformat() == tarea[0].due_date:
+            print("se entrega hoy")
+            messagebox.showwarning("Holder i guess", f"{tarea[0].name} se entrega hoy")
 
 root = tk.Tk()
 root.title('TaskNot3')
@@ -154,4 +156,5 @@ tk.Button(root, text='Salvar', command=tarea_saver).pack(pady=20)
 
 onetimereader()
 actualizar_lista()
+Checador_para_el_dia(lista_de_tareas)
 root.mainloop()
